@@ -9,7 +9,7 @@ class NoobList extends Component {
 
     this.state = {noobs: []};
 
-    fetch('https://localhost/noobs')
+    fetch('https://pure-crag-60488.herokuapp.com/noobs')
     .then((response) => {
       if (response.status != 200) {
         throw error("Did not receive 200 status code back.")
