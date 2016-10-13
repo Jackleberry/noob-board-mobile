@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes';
 import noobApi from '../api/noobApi';
 
-const loadNoobsSuccess = (noobs) => {
+export const loadNoobsSuccess = (noobs) => {
   return {
     type: actionTypes.LOAD_NOOBS_SUCCESS,
     noobs

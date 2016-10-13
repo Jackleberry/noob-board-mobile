@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
 
-const Noob = ({noobPoints, assassinPoints, children}) => {
+const NoobRow = ({noobPoints, assassinPoints, addNoobPoint, addAssassinPoint, children}) => {
   return (
     <View style={styles.noob}>
-        <Text style={[styles.noobText, styles.name]}>{children}</Text>
-        <Text style={[styles.noobText, styles.noobPoints]}>{noobPoints}</Text>
-        <Text style={[styles.noobText, styles.assassinPoints]}>{assassinPoints}</Text>
+      <Text style={[styles.noobText, styles.name]}>{children}</Text>
+      <TouchableHighlight onPress={addNoobPoint}>
+        <Text style={[styles.noobText, styles.noobPoints]}>N {noobPoints}</Text>
+      </TouchableHighlight>
+      <TouchableHighlight onPress={addAssassinPoint}>
+        <Text style={[styles.noobText, styles.assassinPoints]}>A {assassinPoints}</Text>
+      </TouchableHighlight>
     </View>
   );
 };
@@ -41,4 +45,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Noob;
+export default NoobRow;

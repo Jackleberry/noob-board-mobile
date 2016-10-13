@@ -1,5 +1,6 @@
 import noob from './Noob';
 import * as types from '../actions/actionTypes';
+import findIndex from 'lodash/findIndex';
 
 const noobs = (state = [], action) => {
   switch (action.type) {
@@ -16,6 +17,16 @@ const noobs = (state = [], action) => {
       return state.map(n => noob(n, action));
     case types.LOAD_NOOBS_SUCCESS:
       return action.noobs;
+    case types.LOAD_NOOB_SUCCESS:
+      const index = findIndex(state, {id: action.noob.id});
+      if (index < 0) {
+        return state;
+      }
+      return [
+        ...state.slice(0, index),
+        noob(state, action),
+        ...state.slice(index + 1)
+      ];
     default:
       return state;
   }

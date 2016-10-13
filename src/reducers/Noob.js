@@ -2,6 +2,8 @@ import * as types from '../actions/actionTypes';
 
 const noob = (state, action) => {
   switch (action.type) {
+    case types.LOAD_NOOB_SUCCESS:
+      return action.noob;
     case types.ADD_NOOB:
       return {
         id: action.id,

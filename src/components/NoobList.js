@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import Noob from './Noob';
+import NoobRow from './NoobRow';
 import { bindActionCreators } from 'redux';
 import * as noobsActions from '../actions/noobs';
+import * as noobActions from '../actions/noob';
 
 class NoobList extends Component {
 
@@ -30,14 +31,17 @@ class NoobList extends Component {
   }
 
   render() {
+    const { addNoobPoint, addAssassinPoint } = this.props.noobActions;
     return (
       <ScrollView style={styles.listing}>
         {this.props.noobs.map(noob =>
-          <Noob
+          <NoobRow
             key={noob.id}
             noobPoints={noob.noobPoints}
             assassinPoints={noob.assassinPoints}
-          >{noob.name}</Noob>)
+            addNoobPoint={() => addNoobPoint(noob.id)}
+            addAssassinPoint={() => addAssassinPoint(noob.id)}
+          >{noob.name}</NoobRow>)
         }
       </ScrollView>
     );
@@ -60,7 +64,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators(noobsActions, dispatch)
+    actions: bindActionCreators(noobsActions, dispatch),
+    noobActions: bindActionCreators(noobActions, dispatch)
   };
 };
 
