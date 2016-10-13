@@ -13,7 +13,6 @@ class AddNoob extends Component {
         <TextInput
           refs="noobInput"
           style={styles.input}
-          autoFocus={true}
           placeholder="Who is this noob?"
           value={addNoobText}
           onChangeText={text => actions.addNoobTextChange(text)}

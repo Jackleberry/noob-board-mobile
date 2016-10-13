@@ -1,19 +1,42 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
 
-const NoobRow = ({noobPoints, assassinPoints, addNoobPoint, addAssassinPoint, children}) => {
-  return (
-    <View style={styles.noob}>
-      <Text style={[styles.noobText, styles.name]}>{children}</Text>
-      <TouchableHighlight onPress={addNoobPoint}>
-        <Text style={[styles.noobText, styles.noobPoints]}>N {noobPoints}</Text>
-      </TouchableHighlight>
-      <TouchableHighlight onPress={addAssassinPoint}>
-        <Text style={[styles.noobText, styles.assassinPoints]}>A {assassinPoints}</Text>
-      </TouchableHighlight>
-    </View>
-  );
-};
+class NoobRow extends Component {
+  _navigate() {
+    const {id, noobPoints, assassinPoints, addNoobPoint, addAssassinPoint, navigator, children} = this.props;
+    navigator.push({
+      id: "NOOB_SCREEN",
+      title: children,
+      index: 1,
+      passProps: {
+        id,
+        noobPoints,
+        assassinPoints,
+        addNoobPoint,
+        addAssassinPoint
+      }
+    });
+  }
+  render() {
+    const {id, noobPoints, assassinPoints, addNoobPoint, addAssassinPoint, navigator, children} = this.props;
+    return (
+      <View style={styles.noob}>
+        <TouchableOpacity
+          style={styles.noobTextContainer}
+          onPress={() => this._navigate()}
+        >
+          <Text style={[styles.noobText, styles.name]}>{children}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={addNoobPoint}>
+          <Text style={[styles.noobText, styles.noobPoints]}>N {noobPoints}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={addAssassinPoint}>
+          <Text style={[styles.noobText, styles.assassinPoints]}>A {assassinPoints}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   noob: {
@@ -26,6 +49,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'mediumseagreen'
   },
+  noobTextContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
   noobText: {
     fontSize: 15,
     fontWeight: 'bold',
@@ -35,7 +64,7 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 1, height: 1}
   },
   name: {
-    flex: 1,
+    flex: 1
   },
   noobPoints: {
     width: 40
