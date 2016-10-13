@@ -1,32 +1,75 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, TouchableHighlight } from 'react-native';
+import { connect } from 'react-redux';
+import { Text, View, TextInput, TouchableHighlight, StyleSheet } from 'react-native';
+import * as noobActions from '../actions/noob';
+import { bindActionCreators } from 'redux';
 
 class AddNoob extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {name: ''}
-  }
-
-  addNoob() {
-    
-  }
-
   render() {
+    const { actions, addNoobText } = this.props;
     return (
-      <View>
+      <View style={styles.container}>
         <TextInput
-          style={{height: 40}}
+          refs="noobInput"
+          style={styles.input}
+          autoFocus={true}
           placeholder="Who is this noob?"
-          onChangeText={(text) => this.setState({name: text})}
+          value={addNoobText}
+          onChangeText={text => actions.addNoobTextChange(text)}
         />
-        <TouchableHighlight onPress={this.addNoob}>
-          <Text>+</Text>
+        <TouchableHighlight onPress={() => {
+          actions.addNoob(addNoobText);
+          actions.addNoobTextChange('');
+        }}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>+</Text>
+          </View>
         </TouchableHighlight>
       </View>
     );
   }
 }
 
-export default AddNoob;
+const styles = StyleSheet.create({
+  container: {
+    height: 40,
+    backgroundColor: 'pink',
+    flexDirection: 'row'
+  },
+  input: {
+    flex: 1,
+    padding: 5,
+    backgroundColor: 'lightpink'
+  },
+  button: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 40,
+    backgroundColor: 'lightcoral',
+  },
+  buttonText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: 'lightpink',
+    textShadowColor: 'lightpink',
+    textShadowRadius: 2,
+    textShadowOffset: {width: 1, height: 1}
+  }
+});
+
+const mapStateToProps = (state) => {
+  return {
+    addNoobText: state.addNoobText
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(noobActions, dispatch)
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddNoob);

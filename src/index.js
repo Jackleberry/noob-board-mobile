@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
-import { AppRegistry } from 'react-native';
-import NoobList from './components/NoobList';
+import { Provider } from 'react-redux';
+import { AppRegistry, View } from 'react-native';
+import configureStore from './store/configureStore';
+import App from './components/App';
 
 export default function Init() {
 
+  const store = configureStore();
+
   class NoobBoard extends Component {
+
     render() {
       return (
-        <NoobList/>
+        <Provider store={store}>
+          <App />
+        </Provider>
       );
     }
   }
