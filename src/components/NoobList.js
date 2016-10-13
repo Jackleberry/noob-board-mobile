@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Text, ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import Noob from './Noob';
+import { bindActionCreators } from 'redux';
+import * as noobsActions from '../actions/noobs';
 
 class NoobList extends Component {
 
@@ -21,6 +23,10 @@ class NoobList extends Component {
     //   .catch((error) => {
     //     console.log(error);
     //   });
+  }
+
+  componentWillMount() {
+    this.props.actions.fetchNoobs();
   }
 
   render() {
@@ -52,4 +58,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(NoobList);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(noobsActions, dispatch)
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NoobList);
