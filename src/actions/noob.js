@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 import noobApi from '../api/noobApi';
 import { loadNoobsSuccess } from './noobs';
+import isEmpty from 'lodash/isEmpty';
 
 export const addNoob = (name) => {
   return dispatch => {
@@ -16,19 +17,40 @@ export const toggleNoob = (id) => {
   };
 };
 
-// export const addNoobPoint = (id) => {
-//   return {
-//     type: actionTypes.ADD_NOOB_POINT,
-//     id
-//   };
-// };
-//
-// export const addAssassinPoint = (id) => {
-//   return {
-//     type: actionTypes.ADD_ASSASSIN_POINT,
-//     id
-//   };
-// };
+export const addNoobPointLocal = (id) => {
+  return {
+    type: actionTypes.ADD_NOOB_POINT,
+    id
+  };
+};
+
+export const addAssassinPointLocal = (id) => {
+  return {
+    type: actionTypes.ADD_ASSASSIN_POINT,
+    id
+  };
+};
+
+export const addNoobPoint = (id) => {
+  return dispatch => {
+    dispatch(addNoobPointLocal(id));
+    return noobApi.addNoobPoint(id);
+  };
+};
+
+export const addAssassinPoint = (id) => {
+  return dispatch => {
+    dispatch(addAssassinPointLocal(id));
+    return noobApi.addAssassinPoint(id);
+  };
+};
+
+export const addNoobTextChange = (text) => {
+  return {
+    type: actionTypes.ADD_NOOB_TEXT_CHANGED,
+    text
+  };
+};
 
 export const loadNoobSuccess = (noob) => {
   return {
@@ -37,23 +59,12 @@ export const loadNoobSuccess = (noob) => {
   };
 };
 
-export const addNoobPoint = (id) => {
-  return dispatch => {
-    return noobApi.addNoobPoint(id)
-      .then(noob => dispatch(loadNoobSuccess(noob)))
-  };
-};
-
-export const addAssassinPoint = (id) => {
-  return dispatch => {
-    return noobApi.addAssassinPoint(id)
-      .then(noob => dispatch(loadNoobSuccess(noob)))
-  };
-};
-
-export const addNoobTextChange = (text) => {
-  return {
-    type: actionTypes.ADD_NOOB_TEXT_CHANGED,
-    text
+export const loadNoob = (id) => {
+  return (dispatch) => {
+    if (isEmpty(id)) {
+      return dispatch(loadNoobSuccess({}));
+    }
+    return noobApi.getNoob(id)
+      .then(noob => dispatch(loadNoobSuccess(noob)));
   };
 };

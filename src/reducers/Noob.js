@@ -1,6 +1,6 @@
 import * as types from '../actions/actionTypes';
 
-const noob = (state, action) => {
+const noob = (state={}, action) => {
   switch (action.type) {
     case types.LOAD_NOOB_SUCCESS:
       return action.noob;

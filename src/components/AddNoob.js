@@ -32,14 +32,15 @@ class AddNoob extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 40,
-    backgroundColor: 'pink',
-    flexDirection: 'row'
+    height: 50,
+    flexDirection: 'row',
+    borderColor: 'lightgrey',
+    borderWidth: 1,
+    borderTopWidth: 0
   },
   input: {
     flex: 1,
     padding: 5,
-    backgroundColor: 'lightpink'
   },
   button: {
     flex: 1,
@@ -47,13 +48,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: 40,
-    backgroundColor: 'lightcoral',
   },
   buttonText: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: 'lightpink',
-    textShadowColor: 'lightpink',
+    color: 'grey',
+    textShadowColor: 'lightgrey',
     textShadowRadius: 2,
     textShadowOffset: {width: 1, height: 1}
   }

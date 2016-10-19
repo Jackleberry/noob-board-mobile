@@ -1,24 +1,27 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class NoobRow extends Component {
   _navigate() {
-    const {id, noobPoints, assassinPoints, addNoobPoint, addAssassinPoint, navigator, children} = this.props;
+    const { noob, navigator, children} = this.props;
+    const { id } = noob;
+    console.log('.............navigate');
+    console.log(noob);
+    console.log('.............navigate');
     navigator.push({
       id: "NOOB_SCREEN",
       title: children,
       index: 1,
       passProps: {
         id,
-        noobPoints,
-        assassinPoints,
-        addNoobPoint,
-        addAssassinPoint
+        noob
       }
     });
   }
   render() {
-    const {id, noobPoints, assassinPoints, addNoobPoint, addAssassinPoint, navigator, children} = this.props;
+    const { noob, addNoobPoint, addAssassinPoint, children} = this.props;
+    const { noobPoints, assassinPoints } = noob;
     return (
       <View style={styles.noob}>
         <TouchableOpacity
@@ -28,10 +31,20 @@ class NoobRow extends Component {
           <Text style={[styles.noobText, styles.name]}>{children}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={addNoobPoint}>
-          <Text style={[styles.noobText, styles.noobPoints]}>N {noobPoints}</Text>
+          <View style={styles.noobTextContainer}>
+            <Icon name="reddit-alien" size={20} color="forestgreen" style={styles.icon} />
+            <Text style={[styles.noobText, styles.noobPoints]}>
+              {noobPoints}
+            </Text>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={addAssassinPoint}>
-          <Text style={[styles.noobText, styles.assassinPoints]}>A {assassinPoints}</Text>
+          <View style={styles.noobTextContainer}>
+            <Icon name="gitlab" size={20} color="purple" style={styles.icon} />
+            <Text style={[styles.noobText, styles.assassinPoints]}>
+              {assassinPoints}
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
     );
@@ -41,13 +54,16 @@ class NoobRow extends Component {
 const styles = StyleSheet.create({
   noob: {
     flex: 1,
-    height: 40,
+    height: 50,
     padding: 5,
     marginBottom: 2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: 'mediumseagreen'
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgrey',
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   noobTextContainer: {
     flex: 1,
@@ -57,20 +73,21 @@ const styles = StyleSheet.create({
   },
   noobText: {
     fontSize: 15,
-    fontWeight: 'bold',
-    color: 'seagreen',
-    textShadowColor: 'seagreen',
-    textShadowRadius: 1,
-    textShadowOffset: {width: 1, height: 1}
+    color: 'black',
+    opacity: 0.8
   },
   name: {
     flex: 1
   },
   noobPoints: {
-    width: 40
+    width: 50
   },
   assassinPoints: {
-    width: 40
+    width: 50
+  },
+  icon: {
+    flex: 1,
+    paddingRight: 8
   }
 });
 

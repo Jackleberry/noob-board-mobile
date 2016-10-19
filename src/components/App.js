@@ -16,6 +16,10 @@ class App extends Component {
     }
   }
 
+  configureScene(route, routeStack) {
+    return Navigator.SceneConfigs.FloatFromLeft;
+  }
+
   render() {
     const routes = [
       {id: "MAIN", title: "Noob Board", index: 0},
@@ -25,6 +29,7 @@ class App extends Component {
       <Navigator
         initialRoute={routes[0]}
         initialRouteStack={routes}
+        configureScene={this.configureScene}
         style={styles.container}
         renderScene={this.renderScene}
         navigationBar={
@@ -72,18 +77,18 @@ const styles = StyleSheet.create({
   },
   navBar: {
     flex: 1,
-    padding: 10,
-    backgroundColor: 'lightblue',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-end',
-    height: 65
+    height: 65,
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgrey',
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'steelblue',
-    textShadowColor: 'steelblue',
+    color: 'grey',
+    textShadowColor: 'lightgrey',
     textShadowRadius: 2,
     textShadowOffset: {width: 1, height: 1}
   },
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   navBarLeftText: {
-    color: 'steelblue'
+    color: 'grey'
   }
 });
 

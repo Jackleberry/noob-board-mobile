@@ -15,7 +15,6 @@ class Header extends Component {
 const styles = StyleSheet.create({
   headingRow: {
     height: 50,
-    backgroundColor: 'lightblue',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-end',
@@ -24,8 +23,8 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'steelblue',
-    textShadowColor: 'steelblue',
+    color: 'lightgrey',
+    textShadowColor: 'lightgrey',
     textShadowRadius: 2,
     textShadowOffset: {width: 1, height: 1}
   }
