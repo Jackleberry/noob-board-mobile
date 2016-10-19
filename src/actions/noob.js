@@ -2,9 +2,15 @@ import * as actionTypes from './actionTypes';
 import noobApi from '../api/noobApi';
 import { loadNoobsSuccess } from './noobs';
 import isEmpty from 'lodash/isEmpty';
+import uuid from 'uuid';
 
 export const addNoob = (name) => {
   return dispatch => {
+    dispatch({
+      type: actionTypes.ADD_NOOB,
+      id: uuid.v4(),
+      name: name + " (not saved)"
+    });
     return noobApi.addNoob(name)
       .then(noobs => dispatch(loadNoobsSuccess(noobs)))
   };
@@ -66,5 +72,22 @@ export const loadNoob = (id) => {
     }
     return noobApi.getNoob(id)
       .then(noob => dispatch(loadNoobSuccess(noob)));
+  };
+};
+
+const deleteNoobSuccess = () => {
+  return {
+    type: actionTypes.DELETE_NOOB_SUCCESS
+  };
+};
+
+export const deleteNoob = (id) => {
+  return (dispatch) => {
+    dispatch({
+      type: actionTypes.DELETE_NOOB,
+      id
+    });
+    return noobApi.deleteNoob(id)
+      .then(() => dispatch(deleteNoobSuccess()))
   };
 };

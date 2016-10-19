@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Swipeout from 'react-native-swipeout';
 
 class NoobRow extends Component {
   _navigate() {
@@ -20,33 +21,46 @@ class NoobRow extends Component {
     });
   }
   render() {
-    const { noob, addNoobPoint, addAssassinPoint, children} = this.props;
+    const { noob, addNoobPoint, addAssassinPoint, deleteNoob, children} = this.props;
     const { noobPoints, assassinPoints } = noob;
+    let rightButtons = [
+      {
+        text: 'Delete',
+        backgroundColor: 'red',
+        onPress: deleteNoob
+      }
+    ];
+
     return (
-      <View style={styles.noob}>
-        <TouchableOpacity
-          style={styles.noobTextContainer}
-          onPress={() => this._navigate()}
-        >
-          <Text style={[styles.noobText, styles.name]}>{children}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={addNoobPoint}>
-          <View style={styles.noobTextContainer}>
-            <Icon name="reddit-alien" size={20} color="forestgreen" style={styles.icon} />
-            <Text style={[styles.noobText, styles.noobPoints]}>
-              {noobPoints}
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={addAssassinPoint}>
-          <View style={styles.noobTextContainer}>
-            <Icon name="gitlab" size={20} color="purple" style={styles.icon} />
-            <Text style={[styles.noobText, styles.assassinPoints]}>
-              {assassinPoints}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <Swipeout
+        right={rightButtons}
+        autoClose={true}
+        sensitivity={1}
+        backgroundColor= 'transparent'>
+        <View style={styles.noob}>
+          <TouchableOpacity
+            style={styles.noobTextContainer}
+            onPress={() => this._navigate()}>
+            <Text style={[styles.noobText, styles.name]}>{children}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={addNoobPoint}>
+            <View style={styles.noobTextContainer}>
+              <Icon name="reddit-alien" size={20} color="forestgreen" style={styles.icon} />
+              <Text style={[styles.noobText, styles.noobPoints]}>
+                {noobPoints}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={addAssassinPoint}>
+            <View style={styles.noobTextContainer}>
+              <Icon name="gitlab" size={20} color="purple" style={styles.icon} />
+              <Text style={[styles.noobText, styles.assassinPoints]}>
+                {assassinPoints}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </Swipeout>
     );
   }
 }
@@ -56,14 +70,11 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 50,
     padding: 5,
-    marginBottom: 2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: 'lightgrey',
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
   },
   noobTextContainer: {
     flex: 1,

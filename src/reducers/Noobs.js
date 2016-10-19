@@ -17,7 +17,7 @@ const noobs = (state = [], action) => {
       return state.map(n => noob(n, action));
     case types.LOAD_NOOBS_SUCCESS:
       return action.noobs;
-    case types.LOAD_NOOB_SUCCESS:
+    case types.LOAD_NOOB_SUCCESS: {
       const index = findIndex(state, {id: action.noob.id});
       if (index < 0) {
         return state;
@@ -27,6 +27,17 @@ const noobs = (state = [], action) => {
         noob(state, action),
         ...state.slice(index + 1)
       ];
+    }
+    case types.DELETE_NOOB: {
+      const index = findIndex(state, {id: action.id});
+      if (index < 0) {
+        return state;
+      }
+      return [
+        ...state.slice(0, index),
+        ...state.slice(index + 1)
+      ];
+    }
     default:
       return state;
   }

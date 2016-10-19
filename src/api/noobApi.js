@@ -22,9 +22,6 @@ class NoobApi {
       .then(NoobApi.checkStatus)
       .then(res => res.json())
       .catch(error => {
-        console.log(".................... E");
-        console.log(error);
-        console.log(".................... E");
         throw(error);
       });
   }
@@ -36,6 +33,15 @@ class NoobApi {
       body: JSON.stringify({noob: name})
     })
       .then(res => res.json());
+  }
+
+  static deleteNoob(id) {
+    return fetch(`${noobApiUrl}/${id}`, {
+      method: "DELETE",
+      headers: new Headers({'Content-Type': 'application/json'}),
+    }).catch(error => {
+      throw(error);
+    });
   }
 
   static addNoobPoint(id) {

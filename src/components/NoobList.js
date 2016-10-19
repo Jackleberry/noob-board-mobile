@@ -23,13 +23,14 @@ class NoobList extends Component {
       );
     }
 
-    const { addNoobPoint, addAssassinPoint } = this.props.noobActions;
+    const { addNoobPoint, addAssassinPoint, deleteNoob } = this.props.noobActions;
     return (
       <ScrollView style={styles.listing}>
         {this.props.noobs.map(noob =>
           <NoobRow
             key={noob.id}
             noob={noob}
+            deleteNoob={() => deleteNoob(noob.id)}
             addNoobPoint={() => addNoobPoint(noob.id)}
             addAssassinPoint={() => addAssassinPoint(noob.id)}
             navigator={this.props.navigator}
