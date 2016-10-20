@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Navigator, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, Navigator, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Dashboard from './Dashboard';
 import Noob from './Noob';
+import Login from './Login';
+import Logout from './Logout';
+import { FBLoginManager } from 'react-native-facebook-login';
+import routes from './common/routes';
+import * as routeNames from './common/routeNames';
+import { connect } from 'react-redux';
+import * as authActions from '../actions/auth';
+import { bindActionCreators } from 'redux';
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkedCredentials: false
+    };
+  }
+
   renderScene(route, navigator) {
     switch(route.id) {
-      case "MAIN":
+      case routeNames.DASHBOARD:
         return <Dashboard navigator={navigator}/>;
-      case "NOOB_SCREEN":
+      case routeNames.NOOB_SCREEN:
         return <Noob navigator={navigator} {...route.passProps}/>;
       default:
         return <Dashboard navigator={navigator}/>;
@@ -21,27 +36,52 @@ class App extends Component {
   }
 
   render() {
-    const routes = [
-      {id: "MAIN", title: "Noob Board", index: 0},
-      {id: "NOOB_SCREEN", title: "Weasel", index: 1, passProps: {name: "Weasel", noobPoints: 44, assassinPoints: 34}},
-    ];
-    return (
-      <Navigator
-        initialRoute={routes[0]}
-        initialRouteStack={routes}
-        configureScene={this.configureScene}
-        style={styles.container}
-        renderScene={this.renderScene}
-        navigationBar={
-          <Navigator.NavigationBar
-            routeMapper={RouteMapper}
-            style={styles.navBar}
-          />
+
+    if (!this.state.checkedCredentials) {
+      var _this = this;
+      FBLoginManager.getCredentials(function (error, data) {
+        if (!error) {
+          _this.props.actions.loginSuccess(data);
         }
-      />
-    );
+        _this.setState({checkedCredentials: true});
+      });
+
+      return <ActivityIndicator size="large" style={{flex: 1}}/>;
+    } else if (this.props.auth.isLoggedIn) {
+      return (
+        <Navigator
+          initialRoute={routes[0]}
+          initialRouteStack={routes}
+          configureScene={this.configureScene}
+          style={styles.container}
+          renderScene={this.renderScene}
+          navigationBar={
+            <Navigator.NavigationBar
+              routeMapper={RouteMapper}
+              style={styles.navBar}
+            />
+          }
+        />
+      );
+    } else {
+      return <Login />;
+    }
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(authActions, dispatch)
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 const RouteMapper = {
   LeftButton: (route, navigator, index, navState) => {
@@ -59,7 +99,9 @@ const RouteMapper = {
     );
   },
   RightButton: (route, navigator, index, navState) => {
-    return null;
+    return (
+      <Logout />
+    );
   },
   Title: (route, navigator, index, navState) => {
     return (
@@ -100,4 +142,3 @@ const styles = StyleSheet.create({
   }
 });
 
-export default App;

@@ -1,4 +1,7 @@
 export default {
   noobs: [],
-  addNoobText: ''
+  addNoobText: '',
+  auth: {
+    isLoggedIn: false
+  }
 };

@@ -15,12 +15,7 @@ class NoobList extends Component {
 
   render() {
     if (isEmpty(this.props.noobs)) {
-      return (
-        <ActivityIndicator
-          animating={true}
-          size="large"
-          style={styles.activityIndicator}/>
-      );
+      return <ActivityIndicator size="large" style={{flex: 2}}/>;
     }
 
     const { addNoobPoint, addAssassinPoint, deleteNoob } = this.props.noobActions;
@@ -42,9 +37,6 @@ class NoobList extends Component {
 }
 
 const styles = StyleSheet.create({
-  activityIndicator: {
-    flex: 2
-  },
   listing: {
     flex: 2,
     paddingBottom: 5

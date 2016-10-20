@@ -2,18 +2,16 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swipeout from 'react-native-swipeout';
+import * as routeNames from './common/routeNames';
+import { getRouteById } from './common/routes';
 
 class NoobRow extends Component {
   _navigate() {
     const { noob, navigator, children} = this.props;
     const { id } = noob;
-    console.log('.............navigate');
-    console.log(noob);
-    console.log('.............navigate');
     navigator.push({
-      id: "NOOB_SCREEN",
+      ...getRouteById(routeNames.NOOB_SCREEN),
       title: children,
-      index: 1,
       passProps: {
         id,
         noob
