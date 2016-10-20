@@ -18,7 +18,7 @@ class NoobList extends Component {
       return <ActivityIndicator size="large" style={{flex: 2}}/>;
     }
 
-    const { addNoobPoint, addAssassinPoint, deleteNoob } = this.props.noobActions;
+    const { addNoobPoint, addAssassinPoint, deleteNoob, removeNoobPoint, removeAssassinPoint } = this.props.noobActions;
     return (
       <ScrollView style={styles.listing}>
         {this.props.noobs.map(noob =>
@@ -28,6 +28,8 @@ class NoobList extends Component {
             deleteNoob={() => deleteNoob(noob.id)}
             addNoobPoint={() => addNoobPoint(noob.id)}
             addAssassinPoint={() => addAssassinPoint(noob.id)}
+            removeNoobPoint={() => removeNoobPoint(noob.id)}
+            removeAssassinPoint={() => removeAssassinPoint(noob.id)}
             navigator={this.props.navigator}
           >{noob.name}</NoobRow>)
         }

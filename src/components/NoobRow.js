@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swipeout from 'react-native-swipeout';
 import * as routeNames from './common/routeNames';
 import { getRouteById } from './common/routes';
+import SwipeButton from './SwipeButton';
 
 class NoobRow extends Component {
   _navigate() {
@@ -19,84 +20,113 @@ class NoobRow extends Component {
     });
   }
   render() {
-    const { noob, addNoobPoint, addAssassinPoint, deleteNoob, children} = this.props;
+    const { noob, addNoobPoint, addAssassinPoint, removeNoobPoint, removeAssassinPoint, deleteNoob, children} = this.props;
     const { noobPoints, assassinPoints } = noob;
     let rightButtons = [
       {
-        text: 'Delete',
-        backgroundColor: 'red',
-        onPress: deleteNoob
+        component: <SwipeButton direction="up" color="midnightblue" />,
+        onPress: addAssassinPoint
+      },
+      {
+        component: <SwipeButton direction="down" color="midnightblue" />,
+        onPress: removeAssassinPoint
       }
     ];
+
+    let leftButtons = [
+      {
+        component: <SwipeButton direction="up" color="forestgreen" />,
+        onPress: addNoobPoint
+      },
+      {
+        component: <SwipeButton direction="down" color="forestgreen" />,
+        onPress: removeNoobPoint
+      }
+    ];
+    const confirmDelete = () => {
+      Alert.alert(
+        children,
+        "Are you sure you want to delete " + children,
+        [
+          {text: "Delete", onPress: deleteNoob, style: 'destructive'},
+          {text: "Cancel", style: 'cancel'},
+        ]
+      )
+    };
 
     return (
       <Swipeout
         right={rightButtons}
-        autoClose={true}
+        left={leftButtons}
         sensitivity={1}
         backgroundColor= 'transparent'>
-        <View style={styles.noob}>
-          <TouchableOpacity
-            style={styles.noobTextContainer}
-            onPress={() => this._navigate()}>
-            <Text style={[styles.noobText, styles.name]}>{children}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={addNoobPoint}>
-            <View style={styles.noobTextContainer}>
+        <TouchableOpacity onLongPress={confirmDelete}>
+        <View style={styles.row}>
+          <TouchableOpacity onPress={addNoobPoint} onLongPress={confirmDelete}>
+            <View style={[styles.pointsContainer, styles.noobContainer]}>
               <Icon name="reddit-alien" size={20} color="forestgreen" style={styles.icon} />
-              <Text style={[styles.noobText, styles.noobPoints]}>
+              <Text style={[styles.text]}>
                 {noobPoints}
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={addAssassinPoint}>
-            <View style={styles.noobTextContainer}>
-              <Icon name="gitlab" size={20} color="purple" style={styles.icon} />
-              <Text style={[styles.noobText, styles.assassinPoints]}>
+          <TouchableOpacity
+            style={styles.textContainer}
+            onLongPress={confirmDelete}
+            onPress={() => this._navigate()}>
+            <Text style={[styles.text]}>{children}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={addAssassinPoint}  onLongPress={confirmDelete}>
+            <View style={[styles.pointsContainer, styles.assassinContainer]}>
+              <Icon name="gitlab" size={20} color="midnightblue" style={styles.icon} />
+              <Text style={[styles.text]}>
                 {assassinPoints}
               </Text>
             </View>
           </TouchableOpacity>
         </View>
+      </TouchableOpacity>
       </Swipeout>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  noob: {
+  row: {
     flex: 1,
     height: 50,
     padding: 5,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-around',
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: 'lightgrey',
   },
-  noobTextContainer: {
+  textContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  noobText: {
+  pointsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 50,
+  },
+  noobContainer: {
+    justifyContent: 'flex-start',
+  },
+  assassinContainer: {
+    justifyContent: 'flex-end',
+  },
+  text: {
     fontSize: 15,
     color: 'black',
     opacity: 0.8
   },
-  name: {
-    flex: 1
-  },
-  noobPoints: {
-    width: 50
-  },
-  assassinPoints: {
-    width: 50
-  },
   icon: {
     flex: 1,
-    paddingRight: 8
+    paddingRight: 2
   }
 });
 

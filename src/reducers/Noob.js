@@ -39,6 +39,24 @@ const noob = (state={}, action) => {
         ...state,
         assassinPoints: state.assassinPoints + 1
       };
+    case types.REMOVE_NOOB_POINT:
+      if (state.id != action.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        noobPoints: state.noobPoints - 1
+      };
+    case types.REMOVE_ASSASSIN_POINT:
+      if (state.id != action.id) {
+        return state;
+      }
+
+      return {
+        ...state,
+        assassinPoints: state.assassinPoints - 1
+      };
     default:
       return state;
   }

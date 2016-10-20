@@ -37,6 +37,20 @@ export const addAssassinPointLocal = (id) => {
   };
 };
 
+export const removeNoobPointLocal = (id) => {
+  return {
+    type: actionTypes.REMOVE_NOOB_POINT,
+    id
+  };
+};
+
+export const removeAssassinPointLocal = (id) => {
+  return {
+    type: actionTypes.REMOVE_ASSASSIN_POINT,
+    id
+  };
+};
+
 export const addNoobPoint = (id) => {
   return dispatch => {
     dispatch(addNoobPointLocal(id));
@@ -48,6 +62,20 @@ export const addAssassinPoint = (id) => {
   return dispatch => {
     dispatch(addAssassinPointLocal(id));
     return noobApi.addAssassinPoint(id);
+  };
+};
+
+export const removeNoobPoint = (id) => {
+  return dispatch => {
+    dispatch(removeNoobPointLocal(id));
+    return noobApi.removeNoobPoint(id);
+  };
+};
+
+export const removeAssassinPoint = (id) => {
+  return dispatch => {
+    dispatch(removeAssassinPointLocal(id));
+    return noobApi.removeAssassinPoint(id);
   };
 };
 

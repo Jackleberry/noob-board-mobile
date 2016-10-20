@@ -1,5 +1,5 @@
-// const noobApiUrl = "http://localhost:3002/api/noobs";
-const noobApiUrl = "https://pure-crag-60488.herokuapp.com/api/noobs";
+const noobApiUrl = "http://localhost:3002/api/noobs";
+// const noobApiUrl = "https://pure-crag-60488.herokuapp.com/api/noobs";
 
 class NoobApi {
 
@@ -45,7 +45,18 @@ class NoobApi {
   }
 
   static addNoobPoint(id) {
-    return fetch(`${noobApiUrl}/${id}/noob`, {
+    return fetch(`${noobApiUrl}/${id}/noob/increment`, {
+      method: "POST"
+    })
+      .then(NoobApi.checkStatus)
+      .then(res => res.json())
+      .catch(error => {
+        throw(error);
+      });
+  }
+
+  static removeNoobPoint(id) {
+    return fetch(`${noobApiUrl}/${id}/noob/decrement`, {
       method: "POST"
     })
       .then(NoobApi.checkStatus)
@@ -56,7 +67,18 @@ class NoobApi {
   }
 
   static addAssassinPoint(id) {
-    return fetch(`${noobApiUrl}/${id}/assassin`, {
+    return fetch(`${noobApiUrl}/${id}/assassin/increment`, {
+      method: "POST"
+    })
+      .then(NoobApi.checkStatus)
+      .then(res => res.json())
+      .catch(error => {
+        throw(error);
+      });
+  }
+
+  static removeAssassinPoint(id) {
+    return fetch(`${noobApiUrl}/${id}/assassin/decrement`, {
       method: "POST"
     })
       .then(NoobApi.checkStatus)

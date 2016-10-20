@@ -15,6 +15,10 @@ const noobs = (state = [], action) => {
       return state.map(n => noob(n, action));
     case types.ADD_ASSASSIN_POINT:
       return state.map(n => noob(n, action));
+    case types.REMOVE_NOOB_POINT:
+      return state.map(n => noob(n, action));
+    case types.REMOVE_ASSASSIN_POINT:
+      return state.map(n => noob(n, action));
     case types.LOAD_NOOBS_SUCCESS:
       return action.noobs;
     case types.LOAD_NOOB_SUCCESS: {
