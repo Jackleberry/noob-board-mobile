@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
+import { Text, ScrollView, StyleSheet, ActivityIndicator , ListView} from 'react-native';
 import { connect } from 'react-redux';
 import NoobRow from './NoobRow';
 import { bindActionCreators } from 'redux';
@@ -17,23 +17,32 @@ class NoobList extends Component {
     if (isEmpty(this.props.noobs)) {
       return <ActivityIndicator size="large" style={{flex: 2}}/>;
     }
-
-    const { addNoobPoint, addAssassinPoint, deleteNoob, removeNoobPoint, removeAssassinPoint } = this.props.noobActions;
+    const {
+      addNoobPoint,
+      addAssassinPoint,
+      deleteNoob,
+      removeNoobPoint,
+      removeAssassinPoint } = this.props.noobActions;
     return (
-      <ScrollView style={styles.listing}>
-        {this.props.noobs.map(noob =>
-          <NoobRow
-            key={noob.id}
-            noob={noob}
-            deleteNoob={() => deleteNoob(noob.id)}
-            addNoobPoint={() => addNoobPoint(noob.id)}
-            addAssassinPoint={() => addAssassinPoint(noob.id)}
-            removeNoobPoint={() => removeNoobPoint(noob.id)}
-            removeAssassinPoint={() => removeAssassinPoint(noob.id)}
-            navigator={this.props.navigator}
-          >{noob.name}</NoobRow>)
+      <ListView
+        style={styles.listing}
+        dataSource={this.props.noobs}
+        enableEmptySections={true}
+        onChangeVisibleRows={(v, c) => {}}
+        renderRow={
+          (noob, sectionID, rowID, highlightRow) =>
+            <NoobRow
+              key={noob.id}
+              noob={noob}
+              deleteNoob={() => deleteNoob(noob.id)}
+              addNoobPoint={() => addNoobPoint(noob.id)}
+              addAssassinPoint={() => addAssassinPoint(noob.id)}
+              removeNoobPoint={() => removeNoobPoint(noob.id)}
+              removeAssassinPoint={() => removeAssassinPoint(noob.id)}
+              navigator={this.props.navigator}
+            >{rowID}: {noob.name}</NoobRow>
         }
-      </ScrollView>
+      />
     );
   }
 }
@@ -46,8 +55,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state, ownProps) => {
+  const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
   return {
-    noobs: state.noobs,
+    noobs: ds.cloneWithRows(state.noobs),
     navigator: ownProps.navigator
   };
 };
